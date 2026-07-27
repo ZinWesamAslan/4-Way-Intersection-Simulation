@@ -1,0 +1,44 @@
+## Visual Studio / C# Ignore Rules
+
+bin/
+obj/
+
+# Build outputs
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio 2015+ cache directory
+.vs/
+
+# Executables & Compiled binaries
+*.exe
+*.dll
+*.pdb
+*.cache
+*.ilk
+*.obj
+*.pch
+
+# NuGet Packages
+*.nupkg
+**/packages/*
+!**/packages/repositories.config
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Temporary files
+*.tmp
+*.log
+*.dmp
+*.mdmp
