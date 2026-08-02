@@ -14,6 +14,7 @@ namespace IntersectionSimulation4Way
         public enum enTrafficLightMode { Green, GreenUL, GreenFR, Red, Orange }
 
         private enTrafficLightMode _mode = enTrafficLightMode.Red;
+
         private float _angle = 0f;
 
         // متغيرات التحكم في الوقت والتسلسل
@@ -27,7 +28,8 @@ namespace IntersectionSimulation4Way
         {
             InitializeComponent();
             InitializeTimer();
-            Mode = enTrafficLightMode.Red; // تعيين الوضع الافتراضي إلى الأحمر
+            //Mode = enTrafficLightMode.Red; // تعيين الوضع الافتراضي إلى الأحمر
+            
         }
 
         [Category("Appearance")]
@@ -69,34 +71,50 @@ namespace IntersectionSimulation4Way
         private void InitializeTimer()
         {
             _timer.Interval = 1000; // تحدث كل ثانية
-            _timer.Tick += Timer_Tick;
         }
 
         /// <summary>
         /// بدء تشغيل محاكاة دورة إشارة المرور
         /// </summary>
-        public void StartSimulation()
+        public void StartSimulationFourModes()
         {
             switch (Mode)
             {
                 case enTrafficLightMode.Red:
-                    _secondsCounter = 0; // إعادة العداد إذا كانت الإشارة حمراء
-                    break;
-                case enTrafficLightMode.Green:
-                    _secondsCounter = 21;
+                    _secondsCounter = (int)ClsSettings.RedTrafficLightStartTime; // إعادة العداد إذا كانت الإشارة حمراء
                     break;
                 case enTrafficLightMode.GreenUL:
-                    _secondsCounter = 26;
+                    _secondsCounter = (int)ClsSettings.GreenUlTrafficLightStartTime;
                     break;
                 case enTrafficLightMode.GreenFR:
-                    _secondsCounter = 31;
+                    _secondsCounter = (int)ClsSettings.GreenFrTrafficLightStartTime;
                     break;
                 case enTrafficLightMode.Orange:
-                    _secondsCounter = 36;
+                    _secondsCounter = (int)ClsSettings.OrangeTrafficLightStartTime;
                     break;
             }
+            _timer.Tick += Timer_Tick_FourModes;
             _timer.Start();
         }
+
+        public void StartSimulationThreeModes()
+        {
+            switch (Mode)
+            {
+                case enTrafficLightMode.Red:
+                    _secondsCounter = (int)ClsSettings.RedTrafficLightStartTime; // إعادة العداد إذا كانت الإشارة حمراء
+                    break;
+                case enTrafficLightMode.Green:
+                    _secondsCounter = (int)ClsSettings.GreenTrafficLightStartTime;
+                    break;
+                case enTrafficLightMode.Orange:
+                    _secondsCounter = (int)ClsSettings.OrangeTrafficLightStartTime;
+                    break;
+            }
+            _timer.Tick += Timer_Tick_ThreeModes;
+            _timer.Start();
+        }
+
 
         /// <summary>
         /// إيقاف المحاكاة
@@ -109,7 +127,7 @@ namespace IntersectionSimulation4Way
         /// <summary>
         /// حدث المؤقت الذي ينفذ التسلسل الزمني وتحديث الرقم التنازلي
         /// </summary>
-        private void Timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick_FourModes(object sender, EventArgs e)
         {
             _secondsCounter++;
 
@@ -122,26 +140,26 @@ namespace IntersectionSimulation4Way
              * 21 إلى 24 ثانية (4s)  -> Orange
             */
 
-            if (_secondsCounter <= 20)
+            if (_secondsCounter <= ClsSettings.GreenUlTrafficLightStartTime)
             {
                 if (_mode != enTrafficLightMode.Red) Mode =enTrafficLightMode.Red;
-                _timerText = (20 - _secondsCounter + 1).ToString();
+                _timerText = (ClsSettings.GreenUlTrafficLightStartTime - _secondsCounter + 1).ToString();
             }
-            else if (_secondsCounter <= 25)
-            {
-                if (_mode != enTrafficLightMode.Green) Mode = enTrafficLightMode.Green;
-                _timerText = (25 - _secondsCounter + 1).ToString();
-            }
-            else if (_secondsCounter <= 30)
+            else if (_secondsCounter <= ClsSettings.GreenFrTrafficLightStartTime)
             {
                 if (_mode != enTrafficLightMode.GreenUL) Mode = enTrafficLightMode.GreenUL;
-                _timerText = (30 - _secondsCounter + 1).ToString();
+                _timerText = (ClsSettings.GreenFrTrafficLightStartTime - _secondsCounter + 1).ToString();
             }
-            else if (_secondsCounter <= 35)
+            else if (_secondsCounter <= ClsSettings.OrangeTrafficLightStartTime)
+            {
+                if (_mode != enTrafficLightMode.GreenFR) Mode = enTrafficLightMode.GreenFR;
+                _timerText = (ClsSettings.OrangeTrafficLightStartTime - _secondsCounter + 1).ToString();
+            }
+            /*else if (_secondsCounter <= 35)
             {
                 if (_mode != enTrafficLightMode.GreenFR) Mode = enTrafficLightMode.GreenFR;
                 _timerText = (35 - _secondsCounter + 1).ToString();
-            }
+            }*/
             else if (_secondsCounter <= 40)
             {
                 if (_mode != enTrafficLightMode.Orange) Mode = enTrafficLightMode.Orange;
@@ -154,6 +172,48 @@ namespace IntersectionSimulation4Way
 
             Invalidate();
         }
+
+        private void Timer_Tick_ThreeModes(object sender, EventArgs e)
+        {
+            _secondsCounter++;
+
+            /*
+             * التسلسل الزمني الكلي (24 ثانية):
+             * 1  إلى 10 ثوانٍ (10s) -> Red
+             * 11 إلى 13 ثانية (3s)  -> Green
+             * 14 إلى 16 ثانية (3s)  -> GreenUL
+             * 17 إلى 20 ثانية (4s)  -> GreenFR
+             * 21 إلى 24 ثانية (4s)  -> Orange
+            */
+
+            if (_secondsCounter <= ClsSettings.GreenUlTrafficLightStartTime)
+            {
+                if (_mode != enTrafficLightMode.Red) Mode = enTrafficLightMode.Red;
+                _timerText = (ClsSettings.GreenUlTrafficLightStartTime - _secondsCounter + 1).ToString();
+            }
+            else if (_secondsCounter <= ClsSettings.OrangeTrafficLightStartTime)
+            {
+                if (_mode != enTrafficLightMode.Green) Mode = enTrafficLightMode.Green;
+                _timerText = (ClsSettings.OrangeTrafficLightStartTime - _secondsCounter + 1).ToString();
+            }
+            /*else if (_secondsCounter <= 35)
+            {
+                if (_mode != enTrafficLightMode.GreenFR) Mode = enTrafficLightMode.GreenFR;
+                _timerText = (35 - _secondsCounter + 1).ToString();
+            }*/
+            else if (_secondsCounter <= 40)
+            {
+                if (_mode != enTrafficLightMode.Orange) Mode = enTrafficLightMode.Orange;
+                _timerText = (40 - _secondsCounter + 1).ToString();
+            }
+            else
+            {
+                _secondsCounter = 0; // إعادة الدورة من جديد
+            }
+
+            Invalidate();
+        }
+
 
         private void OnModeChanged(enTrafficLightMode mode)
         {
