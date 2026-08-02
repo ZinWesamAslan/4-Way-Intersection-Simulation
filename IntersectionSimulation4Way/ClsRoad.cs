@@ -10,7 +10,7 @@ namespace IntersectionSimulation4Way
     {
         // Private Fields
         private List<ClsLane> _lanes;
-        private ClsTrafficLight _trafficLight;
+        private UcTrafficLight _trafficLight;
 
         // Properties
         public List<ClsLane> Lanes
@@ -18,14 +18,14 @@ namespace IntersectionSimulation4Way
             get { return _lanes; }
         }
 
-        public ClsTrafficLight TrafficLight
+        public UcTrafficLight TrafficLight
         {
             get { return _trafficLight; }
             set { _trafficLight = value; }
         }
 
         // Constructor
-        public ClsRoad(ClsTrafficLight trafficLight, int numberOfLanes = 2)
+        public ClsRoad(UcTrafficLight trafficLight, int numberOfLanes = 2)
         {
             // التحقق من أن عدد المسارات محصور بين 2 و 3 بناءً على مخطط UML (2..3)
             if (numberOfLanes < 2 || numberOfLanes > 3)

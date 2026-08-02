@@ -36,10 +36,15 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Guna.UI2">
+      <HintPath>..\..\..\Libraries\Guna_UI_Framework_Ultimate_v2.0.0.1\Guna.UI-Framework-Lib-master\Guna.UI2 WinForms\.net 4.0\Guna.UI2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,7 +64,6 @@
     </Compile>
     <Compile Include="ClsLane.cs" />
     <Compile Include="ClsRoad.cs" />
-    <Compile Include="ClsTrafficLight.cs" />
     <Compile Include="FrmSimulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +77,12 @@
     </Compile>
     <Compile Include="UcCar.Designer.cs">
       <DependentUpon>UcCar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UcTrafficLight.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UcTrafficLight.Designer.cs">
+      <DependentUpon>UcTrafficLight.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="FrmSimulation.resx">
       <DependentUpon>FrmSimulation.cs</DependentUpon>
@@ -90,6 +100,9 @@
     <EmbeddedResource Include="UcCar.resx">
       <DependentUpon>UcCar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UcTrafficLight.resx">
+      <DependentUpon>UcTrafficLight.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -102,6 +115,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GreenTrafficLight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GreenTrafficLighWithForawardAndRightTurn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GreenTrafficLighWithUandLiftTurn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OrangeTrafficLight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RedTrafficLight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrafficlightTurnOff.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

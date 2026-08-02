@@ -59,5 +59,65 @@ namespace IntersectionSimulation4Way.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GreenTrafficLight {
+            get {
+                object obj = ResourceManager.GetObject("GreenTrafficLight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GreenTrafficLighWithForawardAndRightTurn {
+            get {
+                object obj = ResourceManager.GetObject("GreenTrafficLighWithForawardAndRightTurn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GreenTrafficLighWithUandLiftTurn {
+            get {
+                object obj = ResourceManager.GetObject("GreenTrafficLighWithUandLiftTurn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap OrangeTrafficLight {
+            get {
+                object obj = ResourceManager.GetObject("OrangeTrafficLight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RedTrafficLight {
+            get {
+                object obj = ResourceManager.GetObject("RedTrafficLight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TrafficlightTurnOff {
+            get {
+                object obj = ResourceManager.GetObject("TrafficlightTurnOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
