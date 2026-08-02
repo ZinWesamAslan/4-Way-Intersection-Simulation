@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CanMove.cs" />
+    <Compile Include="ClsSettings.cs" />
     <Compile Include="UcCircleControl.cs">
       <SubType>Component</SubType>
     </Compile>

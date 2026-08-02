@@ -20,11 +20,10 @@ namespace IntersectionSimulation4Way
 
         private void FrmSimulation_Load(object sender, EventArgs e)
         {
-            ucTrafficLight1.StartSimulation();
-            ucTrafficLight2.StartSimulation();
-            ucTrafficLight3.StartSimulation();
-            ucTrafficLight4.StartSimulation();
+            ucTrafficLight1.StartSimulationFourModes();
+            ucTrafficLight2.StartSimulationFourModes();
+            ucTrafficLight3.StartSimulationThreeModes();
+            ucTrafficLight4.StartSimulationThreeModes();
         }
-
     }
 }
