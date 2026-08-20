@@ -22,6 +22,21 @@ namespace IntersectionSimulation4Way
         private string _timerText = "10";
         private bool _isFourModes = true;
 
+        
+        public int SecondsCounter
+        {
+            get => _secondsCounter;
+            set => _secondsCounter = value;
+        }
+
+        
+        public void RestoreLightState(enTrafficLightMode mode, int secondsCounter)
+        {
+            this.Mode = mode;
+            this._secondsCounter = secondsCounter;
+            this.Invalidate();
+        }
+
         public UcTrafficLight()
         {
             InitializeComponent();

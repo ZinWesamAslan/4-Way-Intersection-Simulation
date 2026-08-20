@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSimulation));
             this.picFourWayIntersectionSimulation = new System.Windows.Forms.PictureBox();
+            this.btnSavePoint = new Guna.UI2.WinForms.Guna2GradientCircleButton();
             this.UcTrafficLightRight = new IntersectionSimulation4Way.UcTrafficLight();
             this.UcTrafficLightLift = new IntersectionSimulation4Way.UcTrafficLight();
             this.UcTrafficLightUp = new IntersectionSimulation4Way.UcTrafficLight();
@@ -51,6 +52,26 @@
             this.picFourWayIntersectionSimulation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picFourWayIntersectionSimulation.TabIndex = 0;
             this.picFourWayIntersectionSimulation.TabStop = false;
+            // 
+            // btnSavePoint
+            // 
+            this.btnSavePoint.BackColor = System.Drawing.Color.Transparent;
+            this.btnSavePoint.CheckedState.Parent = this.btnSavePoint;
+            this.btnSavePoint.CustomImages.Parent = this.btnSavePoint;
+            this.btnSavePoint.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btnSavePoint.FillColor2 = System.Drawing.Color.GreenYellow;
+            this.btnSavePoint.Font = new System.Drawing.Font("Impact", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSavePoint.ForeColor = System.Drawing.Color.White;
+            this.btnSavePoint.HoverState.Parent = this.btnSavePoint;
+            this.btnSavePoint.Location = new System.Drawing.Point(1267, 12);
+            this.btnSavePoint.Name = "btnSavePoint";
+            this.btnSavePoint.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            this.btnSavePoint.ShadowDecoration.Parent = this.btnSavePoint;
+            this.btnSavePoint.Size = new System.Drawing.Size(87, 85);
+            this.btnSavePoint.TabIndex = 5;
+            this.btnSavePoint.Text = "Save Point";
+            this.btnSavePoint.UseTransparentBackground = true;
+            this.btnSavePoint.Click += new System.EventHandler(this.btnSaveState_Click);
             // 
             // UcTrafficLightRight
             // 
@@ -111,6 +132,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(1366, 745);
+            this.Controls.Add(this.btnSavePoint);
             this.Controls.Add(this.UcTrafficLightRight);
             this.Controls.Add(this.UcTrafficLightLift);
             this.Controls.Add(this.UcTrafficLightUp);
@@ -138,6 +160,7 @@
         private UcTrafficLight UcTrafficLightUp;
         private UcTrafficLight UcTrafficLightLift;
         private UcTrafficLight UcTrafficLightRight;
+        private Guna.UI2.WinForms.Guna2GradientCircleButton btnSavePoint;
     }
 }
 

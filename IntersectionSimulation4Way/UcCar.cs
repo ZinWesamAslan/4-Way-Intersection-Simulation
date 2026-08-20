@@ -8,20 +8,15 @@ namespace IntersectionSimulation4Way
     public partial class UcCar : UcCircleControl
     {
         public enum enCarDestination { Forward, TurnRight, TurnLeft, UTurn }
-        // أضفنا حالة Turning هنا:
         public enum enCarState { ApproachingIntersection, WaitingForGreenLight, Turning, Crossing, Exited }
-
         public int ID { get; private set; }
         public static int CarsNumberCounter { get; private set; } = 0;
-
         public int Speed { get; set; }
         public enCarState State { get; set; }
         public enCarDestination Destination { get; set; }
         public enRoadPosition OriginRoad { get; private set; }
-
         public Point TargetIntersectionPoint { get; set; }
         public Point ExitPoint { get; set; }
-
         private float _currentX;
         private float _currentY;
 
@@ -38,7 +33,6 @@ namespace IntersectionSimulation4Way
             this.OriginRoad = originRoad;
             this.State = enCarState.ApproachingIntersection;
             this.TargetIntersectionPoint = targetIntersection;
-
             this.ExitPoint = new Point(0, 0);
             this.Location = startPoint;
             this._currentX = startPoint.X;
@@ -48,8 +42,9 @@ namespace IntersectionSimulation4Way
 
         public UcCar() { }
 
-        public void MoveCar()
+        /*public void MoveCar()
         {
+            // koko ? تابع الإنهاء ؟
             if (State == enCarState.WaitingForGreenLight || State == enCarState.Exited)
                 return;
 
@@ -90,6 +85,134 @@ namespace IntersectionSimulation4Way
                 _currentY = target.Y;
                 UpdateLocation();
 
+                // koko  شو ضروري ؟ انطر الاشارة الخضراء ؟
+                if (State == enCarState.ApproachingIntersection)
+                    State = enCarState.WaitingForGreenLight;
+                else if (State == enCarState.Crossing)
+                    State = enCarState.Exited;
+            }
+            else
+            {
+                // koko
+                _currentX += (dx / distance) * Speed;
+                _currentY += (dy / distance) * Speed;
+                UpdateLocation();
+            }
+        }
+        */
+
+        /*public void MoveCar()
+        {
+            // الإنهاء المباشر إذا كانت السيارة تنتظر الإشارة أو خرجت بالفعل
+            if (State == enCarState.WaitingForGreenLight || State == enCarState.Exited)
+                return;
+
+            // 1. معالجة الحركة القوسية (الالتفاف)
+            if (State == enCarState.Turning)
+            {
+                // حساب المسافة التقريبية للمنحنى (باستخدام المسافة بين P0 و P2 والتحكم P1)
+                float chord = (float)Math.Sqrt(Math.Pow(_curveP2.X - _curveP0.X, 2) + Math.Pow(_curveP2.Y - _curveP0.Y, 2));
+                float controlLength = (float)(Math.Sqrt(Math.Pow(_curveP1.X - _curveP0.X, 2) + Math.Pow(_curveP1.Y - _curveP0.Y, 2)) +
+                                              Math.Sqrt(Math.Pow(_curveP2.X - _curveP1.X, 2) + Math.Pow(_curveP2.Y - _curveP1.Y, 2)));
+
+                // متوسط طول المنحنى التقريبي
+                float estimatedArcLength = (chord + controlLength) / 2f;
+                if (estimatedArcLength < 1f) estimatedArcLength = 1f; // تجنب القسمة على صفر
+
+                // زيادة T بناءً على السرعة الفعلية مقسومة على طول المنحنى
+                _curveT += (float)Speed / estimatedArcLength;
+
+                if (_curveT >= 1.0f)
+                {
+                    _curveT = 1.0f;
+                    State = enCarState.Crossing;
+                    _currentX = _curveP2.X;
+                    _currentY = _curveP2.Y;
+                }
+                else
+                {
+                    // معادلة Quadratic Bezier Curve
+                    float u = 1 - _curveT;
+                    _currentX = (u * u * _curveP0.X) + (2 * u * _curveT * _curveP1.X) + (_curveT * _curveT * _curveP2.X);
+                    _currentY = (u * u * _curveP0.Y) + (2 * u * _curveT * _curveP1.Y) + (_curveT * _curveT * _curveP2.Y);
+                }
+
+                UpdateLocation();
+                return;
+            }
+
+            // 2. معالجة الحركة في خط مستقيم
+            Point target = (State == enCarState.ApproachingIntersection) ? TargetIntersectionPoint : ExitPoint;
+
+            float dx = target.X - _currentX;
+            float dy = target.Y - _currentY;
+            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            if (distance <= Speed)
+            {
+                _currentX = target.X;
+                _currentY = target.Y;
+                UpdateLocation();
+
+                if (State == enCarState.ApproachingIntersection)
+                    State = enCarState.WaitingForGreenLight;
+                else if (State == enCarState.Crossing)
+                    State = enCarState.Exited;
+            }
+            else
+            {
+                _currentX += (dx / distance) * Speed;
+                _currentY += (dy / distance) * Speed;
+                UpdateLocation();
+            }
+        }*/
+
+        public void MoveCar()
+        {
+            if (State == enCarState.WaitingForGreenLight || State == enCarState.Exited)
+                return;
+
+            // 1. معالجة الحركة القوسية (الالتفاف)
+            if (State == enCarState.Turning)
+            {
+                // استخدام سرعة أبطأ خصيصاً للالتفاف (مثلاً 50% من السرعة الأصلية)
+                float turningSpeed = (float)Speed * 0.5f;
+
+                // زيادة T بمعدل متناسب مع السرعة المنخفضة
+                // يمكن التعديل على الرقم 250f لتحديد مدى بطء الالتفاف
+                _curveT += turningSpeed / 250f;
+
+                if (_curveT >= 1.0f)
+                {
+                    _curveT = 1.0f;
+                    State = enCarState.Crossing; // تعود للسرعة العادية بعد الانتهاء
+                    _currentX = _curveP2.X;
+                    _currentY = _curveP2.Y;
+                }
+                else
+                {
+                    float u = 1 - _curveT;
+                    _currentX = (u * u * _curveP0.X) + (2 * u * _curveT * _curveP1.X) + (_curveT * _curveT * _curveP2.X);
+                    _currentY = (u * u * _curveP0.Y) + (2 * u * _curveT * _curveP1.Y) + (_curveT * _curveT * _curveP2.Y);
+                }
+
+                UpdateLocation();
+                return;
+            }
+
+            // 2. معالجة الحركة في خط مستقيم
+            Point target = (State == enCarState.ApproachingIntersection) ? TargetIntersectionPoint : ExitPoint;
+
+            float dx = target.X - _currentX;
+            float dy = target.Y - _currentY;
+            float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+            if (distance <= Speed)
+            {
+                _currentX = target.X;
+                _currentY = target.Y;
+                UpdateLocation();
+
                 if (State == enCarState.ApproachingIntersection)
                     State = enCarState.WaitingForGreenLight;
                 else if (State == enCarState.Crossing)
@@ -102,7 +225,7 @@ namespace IntersectionSimulation4Way
                 UpdateLocation();
             }
         }
-
+        
         private void UpdateLocation()
         {
             this.Location = new Point((int)_currentX, (int)_currentY);
@@ -246,6 +369,52 @@ namespace IntersectionSimulation4Way
                     break;
             }
             State = enCarState.Turning;
+        }
+        public ClsProjectState.CarData GetCarData()
+        {
+            return new ClsProjectState.CarData
+            {
+                ID = this.ID,
+                ColorArgb = this.InnerColor.ToArgb(),
+                Speed = this.Speed,
+                State = this.State,
+                Destination = this.Destination,
+                OriginRoad = this.OriginRoad,
+                TargetIntersectionPoint = this.TargetIntersectionPoint,
+                ExitPoint = this.ExitPoint,
+                CurrentX = this._currentX,
+                CurrentY = this._currentY,
+                CurveP0 = this._curveP0,
+                CurveP1 = this._curveP1,
+                CurveP2 = this._curveP2,
+                CurveT = this._curveT
+            };
+        }
+
+        public static UcCar FromCarData(ClsProjectState.CarData data)
+        {
+            if (data == null) return null;
+
+            UcCar car = new UcCar
+            {
+                ID = data.ID,
+                InnerColor = Color.FromArgb(data.ColorArgb),
+                Speed = data.Speed,
+                State = data.State,
+                Destination = data.Destination,
+                OriginRoad = data.OriginRoad,
+                TargetIntersectionPoint = data.TargetIntersectionPoint,
+                ExitPoint = data.ExitPoint,
+                _currentX = data.CurrentX,
+                _currentY = data.CurrentY,
+                _curveP0 = data.CurveP0,
+                _curveP1 = data.CurveP1,
+                _curveP2 = data.CurveP2,
+                _curveT = data.CurveT,
+                Size = new Size(30, 30)
+            };
+            car.UpdateLocation();
+            return car;
         }
     }
 }
