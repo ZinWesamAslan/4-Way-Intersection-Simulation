@@ -1,21 +1,24 @@
-﻿using System.Drawing;
+﻿using System.Configuration;
+using System.Drawing;
 
 namespace IntersectionSimulation4Way
 {
     public static class ClsSettings
     {
-        // Traffic Lights Start Time
-        public static byte RedTrafficLightStartTime = 0;
-        public static byte GreenUlTrafficLightStartTime = 20;
-        public static byte GreenFrTrafficLightStartTime = 27;
-        public static byte GreenTrafficLightStartTime = 20;
-        public static byte OrangeTrafficLightStartTime = 35;
+        private static string Get(string key) => ConfigurationManager.AppSettings[key];
 
-        // UcCar Points LifeEnd (نقاط خروج السيارات من الشاشة)
-        public static int LeftExitX = -100;
-        public static int RightExitX = 1450;
-        public static int UpExitY = -100;
-        public static int DownExitY = 850;
+        
+        public static byte RedTrafficLightStartTime = byte.Parse(Get("RedTrafficLightStartTime"));
+        public static byte GreenUlTrafficLightStartTime = byte.Parse(Get("GreenUlTrafficLightStartTime"));
+        public static byte GreenFrTrafficLightStartTime = byte.Parse(Get("GreenFrTrafficLightStartTime"));
+        public static byte GreenTrafficLightStartTime = byte.Parse(Get("GreenTrafficLightStartTime"));
+        public static byte OrangeTrafficLightStartTime = byte.Parse(Get("OrangeTrafficLightStartTime"));
+
+        // نقاط الخروج
+        public static int LeftExitX = int.Parse(Get("LeftExitX"));
+        public static int RightExitX = int.Parse(Get("RightExitX"));
+        public static int UpExitY = int.Parse(Get("UpExitY"));
+        public static int DownExitY = int.Parse(Get("DownExitY"));
 
         // مصفوفات لتخزين نقاط البداية والنهاية لكل طريق لتسهيل الوصول إليها بالـ Index
         // Bottom Road (3 Lanes)

@@ -88,7 +88,7 @@ namespace IntersectionSimulation4Way
 
         private bool IsLightGreenForCar(enCarDestination carDestination)
         {
-            var currentMode = TrafficLight.Mode;
+            UcTrafficLight.enTrafficLightMode currentMode = TrafficLight.Mode;
 
             if (currentMode == UcTrafficLight.enTrafficLightMode.Green)
                 return true;
@@ -102,6 +102,31 @@ namespace IntersectionSimulation4Way
                 return true;
 
             return false;
+        }
+        public ClsProjectState.RoadData GetRoadData()
+        {
+            var roadData = new ClsProjectState.RoadData
+            {
+                Position = this.Position
+            };
+
+            foreach (var lane in Lanes)
+            {
+                roadData.Lanes.Add(lane.GetLaneData());
+            }
+
+            return roadData;
+        }
+
+        
+        public void RestoreRoadData(ClsProjectState.RoadData data, Control parentForm)
+        {
+            if (data == null || data.Lanes == null) return;
+
+            for (int i = 0; i < Lanes.Count && i < data.Lanes.Count; i++)
+            {
+                Lanes[i].RestoreLaneData(data.Lanes[i], parentForm);
+            }
         }
     }
 }
